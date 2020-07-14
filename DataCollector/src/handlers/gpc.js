@@ -3,10 +3,9 @@ const { v4: uuid } = require('uuid');
 
 const request = require('request');
 
-
 const logger = require('./logger');
 
-exports.getJWT = () => {
+exports.getJWT = (scope) => {
 	const requesting_organization_ODS_Code = "A11111";
 	// Construct the JWT token for the request
 	const currentTime = new Date();
@@ -22,6 +21,7 @@ exports.getJWT = () => {
 	payload.exp = jwtExpiryTime;
 	payload.iat = jwtCreationTime;
 	payload.requesting_organization.identifier[0].value = requesting_organization_ODS_Code;
+	payload.requested_scope = scope;
 
 	// Encode the JWT data into the base64url encoded string
 	var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
@@ -52,12 +52,46 @@ exports.getStructuredMedicalRecord = (nhsNo) => {
 		body.parameter[0].valueIdentifier.value = '' + nhsNo;
 
 		const qs = require('querystring');
-
+		
 		console.log([process.env.GPConnect_1_Base, 'Patient/$gpc.getstructuredrecord'].join('/'));
+		/*
+		var requestData = {
+		  resourceType: "Parameters",
+		  parameter: [
+		  {
+			name : "patientNHSNumber",
+			valueIdentifier : {
+				system : "https://fhir.nhs.uk/Id/nhs-number",
+				value : nhsNo
+			}
+		  },
+		  {
+			name : "includeAllergies",
+			part : [{
+				name: "includeResolvedAllergies",
+				valueBoolean: true
+			}]
+		  },
+		  {
+			name : "includeMedication",
+			part : [{
+				name: "includePrescriptionIssues",
+				valueBoolean: true
+			},
+			{
+				name: "medicationSearchFromDate",
+				valueBoolean: true
+			}]
+		  }
+		  ]
+		};
 
+		*/
+		console.log(body);
 		const options = {
 			method: 'POST',
 			url: 'https://orange.testlab.nhs.uk/gpconnect-demonstrator/v1/fhir/Patient/$gpc.getstructuredrecord',
+			//json: true,
 			body: JSON.stringify(body),
 			headers: {
 				'Content-Type': process.env.GPConnect_Accept,
@@ -66,7 +100,7 @@ exports.getStructuredMedicalRecord = (nhsNo) => {
 				'Ssp-To': process.env.GPConnect_SSPTo,
 				'Ssp-InteractionID': process.env.GPConnect_SSPInteractionID_Structured,
 				'Ssp-TraceID': uuid(),
-				'Authorization': 'Bearer ' + this.getJWT()
+				'Authorization': 'Bearer ' + this.getJWT('patient/*.read')
 			}
 		};
 
@@ -81,6 +115,16 @@ exports.getStructuredMedicalRecord = (nhsNo) => {
 	});
 };
 
+exports.getStructuredMedicalRecordDemo = (nhsNo) => {
+	return new Promise((resolve, reject) => {
+
+		const body =  require('./../secure/patients/'+nhsNo+'.json');
+
+		return resolve(body);
+
+	});
+};
+
 exports.getPatientByNHSNo = (nhsNo) => {
 	return new Promise((resolve, reject) => {
 		const options = {
@@ -92,7 +136,7 @@ exports.getPatientByNHSNo = (nhsNo) => {
 				'Ssp-To': process.env.GPConnect_SSPTo,
 				'Ssp-InteractionID': process.env.GPConnect_SSPInteractionID_Patient,
 				'Ssp-TraceID': uuid(),
-				'Authorization': 'Bearer ' + this.getJWT()
+				'Authorization': 'Bearer ' + this.getJWT('organization/*.read')
 			}
 		};
 
@@ -118,7 +162,7 @@ exports.metadata = () => {
 				'Ssp-To': process.env.GPConnect_SSPTo,
 				'Ssp-InteractionID': process.env.GPConnect_SSPInteractionID_Metadata,
 				'Ssp-TraceID': uuid(),
-				'Authorization': 'Bearer ' + this.getJWT()
+				'Authorization': 'Bearer ' + this.getJWT('organization/*.read')
 			}
 		};
 
