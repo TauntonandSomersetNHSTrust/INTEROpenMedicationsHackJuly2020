@@ -143,7 +143,7 @@ definition
 					}
 					CLUSTER[at0032] occurrences matches {0..1} matches {    -- COPD
 						items cardinality matches {1..*; unordered} matches {
-							ELEMENT[at0033] occurrences matches {0..1} matches {    -- Do you have asthma?
+							ELEMENT[at0033] occurrences matches {0..1} matches {    -- Do you have COPD?
 								value matches {
 									DV_BOOLEAN matches {*}
 								}
@@ -467,7 +467,7 @@ ontology
 					description = <"">
 				>
 				["at0033"] = <
-					text = <"Do you have asthma?">
+					text = <"Do you have COPD?">
 					description = <"">
 				>
 				["at0034"] = <
