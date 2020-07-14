@@ -160,6 +160,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const login = require('./handlers/login');
 //const fhir = require('./handlers/fhir');
+const GPConnect = require('./handlers/GPConnect')
 
 app.use('/auth', login);
 //app.use('/', fhir);
