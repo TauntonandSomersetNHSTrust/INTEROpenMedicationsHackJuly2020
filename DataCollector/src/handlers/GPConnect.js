@@ -73,3 +73,5 @@ const getFhirResponse = async (req, res) => {
 
 // Routes
 router.get('/*', verifyToken, asyncMiddleware(getFhirResponse));
+
+router.get('/metadata', verifyToken, asyncMiddleware(getFhirResponse));
