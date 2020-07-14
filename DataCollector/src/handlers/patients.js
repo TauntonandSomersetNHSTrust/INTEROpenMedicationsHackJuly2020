@@ -67,8 +67,17 @@ const metadata = async (req, res) => {
 	}
 };
 
+const getPatientByNHSNo = async (req, res) => {
+	const response = await gpc.getPatientByNHSNo(req.params.nhsno);
+	if (response) {
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+};
 
 //routes
 router.get('/metadata', asyncMiddleware(metadata));
+router.get('/patient/:nhsno', asyncMiddleware(getPatientByNHSNo));
 
 module.exports = router;

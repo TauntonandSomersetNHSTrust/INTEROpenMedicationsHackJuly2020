@@ -44,6 +44,32 @@ function base64url(source) {
 	return encodedSource;
 }
 
+exports.getPatientByNHSNo = (nhsNo) => {
+	return new Promise((resolve, reject) => {
+		const options = {
+			method: 'GET',
+			url: [process.env.GPConnect_1_Base, process.env.GPConnect_1_patient].join('/') + nhsNo,
+			headers: {
+				'Accept': process.env.GPConnect_Accept,
+				'Ssp-From': process.env.GPConnect_SSPFrom,
+				'Ssp-To': process.env.GPConnect_SSPTo,
+				'Ssp-InteractionID': process.env.GPConnect_SSPInteractionID_Patient,
+				'Ssp-TraceID': uuid(),
+				'Authorization': 'Bearer ' + this.getJWT()
+			}
+		};
+
+		console.log(options);
+
+		request(options, (error, response, body) => {
+			if (error) {
+				return reject(error);
+			}
+			return resolve(JSON.parse(body));
+		});
+	});
+}
+
 exports.metadata = () => {
 	return new Promise((resolve, reject) => {
 		const options = {
@@ -53,7 +79,7 @@ exports.metadata = () => {
 				'Accept': process.env.GPConnect_Accept,
 				'Ssp-From': process.env.GPConnect_SSPFrom,
 				'Ssp-To': process.env.GPConnect_SSPTo,
-				'Ssp-InteractionID': process.env.GPConnect_SSPInteractionID,
+				'Ssp-InteractionID': process.env.GPConnect_SSPInteractionID_Metadata,
 				'Ssp-TraceID': uuid(),
 				'Authorization': 'Bearer ' + this.getJWT()
 			}
