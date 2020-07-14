@@ -160,12 +160,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const login = require('./handlers/login');
 //const fhir = require('./handlers/fhir');
-const GPConnect = require('./handlers/GPConnect')
+const patients = require('./handlers/patients')
 
 app.use('/auth', login);
+app.use('/gpc', patients);
 //app.use('/', fhir);
 
 server.listen(process.env.listenOn, 'localhost');
 server.on('listening', function() {
-    logger.info('Server started on port %s at %s', server.address().port, server.address().address);
+    logger.info(`Server started on port ${server.address().port} at ${server.address().address}`);
 });

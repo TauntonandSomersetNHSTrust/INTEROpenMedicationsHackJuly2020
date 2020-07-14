@@ -3,6 +3,7 @@ const errors = require('request-promise/errors');
 const rp = require('request-promise');
 const verifyToken = require('./verify-token');
 const login = require('./login');
+const gpc = require('./gpc');
 const router = express.Router();
 
 
@@ -15,7 +16,6 @@ const asyncMiddleware = (fn) => (req, res, next) => {
 	Promise.resolve(fn(req, res, next))
 		.catch(next);
 };
-
 
 // Functions
 async function getFhirResponseFunc(path = '/', queryString) {
@@ -32,7 +32,7 @@ async function getFhirResponseFunc(path = '/', queryString) {
 				headers['Authorization'] = 'Bearer ' + body.access_token;
 			}
 		} else {
-			logger.error('Unable to get Token');			
+			logger.error('Unable to get Token');
 		}
 	}
 	const qs = require('querystring');
@@ -54,24 +54,52 @@ async function getFhirResponseFunc(path = '/', queryString) {
         // reason.cause is the Error object Request would pass into a callback.
 		logger.error(JSON.stringify(reason));
     });
-	
-	
+
+
 }
 
-const getFhirResponse = async (req, res) => {
-	logger.debug('New request');
-	logger.debug(`Request path: ${JSON.stringify(req.path)}`);
-	logger.debug(`Request query parameters: ${JSON.stringify(req.query)}`);
-	const response = await getFhirResponseFunc(req.path, req.query);
+const metadata = async (req, res) => {
+	const response = await gpc.metadata();
 	if (response) {
-		res.end(response);
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+};
+
+const getPatientByNHSNo = async (req, res) => {
+	const response = await gpc.getPatientByNHSNo(req.params.nhsno);
+	if (response) {
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+};
+
+const getStructuredRecordByNhsNo = async (req, res) => {
+	const response = await gpc.getStructuredMedicalRecord(req.params.nhsno);
+	if (response) {
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+};
+
+const getStructuredRecordByNhsNoDemo = async (req, res) => {
+	const response = await gpc.getStructuredMedicalRecordDemo(req.params.nhsno);
+	if (response) {
+		res.json(response);
 	} else {
 		res.status(500).end();
 	}
 };
 
 
-// Routes
-router.get('/*', verifyToken, asyncMiddleware(getFhirResponse));
 
-router.get('/metadata', verifyToken, asyncMiddleware(getFhirResponse));
+//routes
+router.get('/metadata', asyncMiddleware(metadata));
+router.get('/patient/:nhsno', asyncMiddleware(getPatientByNHSNo));
+router.get('/structured/:nhsno', asyncMiddleware(getStructuredRecordByNhsNo));
+router.get('/structureddemo/:nhsno', asyncMiddleware(getStructuredRecordByNhsNoDemo));
+
+module.exports = router;
