@@ -39,10 +39,47 @@ function base64url(source) {
 	// Replace characters according to base64url specifications
 	encodedSource = encodedSource.replace(/\+/g, '-');
 	encodedSource = encodedSource.replace(/\//g, '_');
-	logger.debug('Generated JWT:');
-	logger.debug(encodedSource);
+	//logger.debug('Generated JWT:');
+	//logger.debug(encodedSource);
 	return encodedSource;
 }
+
+
+exports.getStructuredMedicalRecord = (nhsNo) => {
+	return new Promise((resolve, reject) => {
+
+		const body =  require('./../secure/structuredpatientrequest.json');
+		body.parameter[0].valueIdentifier.value = '' + nhsNo;
+
+		const qs = require('querystring');
+
+		console.log([process.env.GPConnect_1_Base, 'Patient/$gpc.getstructuredrecord'].join('/'));
+
+		const options = {
+			method: 'POST',
+			url: 'https://orange.testlab.nhs.uk/gpconnect-demonstrator/v1/fhir/Patient/$gpc.getstructuredrecord',
+			body: JSON.stringify(body),
+			headers: {
+				'Content-Type': process.env.GPConnect_Accept,
+				'Accept': process.env.GPConnect_Accept,
+				'Ssp-From': process.env.GPConnect_SSPFrom,
+				'Ssp-To': process.env.GPConnect_SSPTo,
+				'Ssp-InteractionID': process.env.GPConnect_SSPInteractionID_Structured,
+				'Ssp-TraceID': uuid(),
+				'Authorization': 'Bearer ' + this.getJWT()
+			}
+		};
+
+		console.log(options);
+
+		request(options, (error, response, body) => {
+			if (error) {
+				return reject(error);
+			}
+			return resolve(JSON.parse(body));
+		});
+	});
+};
 
 exports.getPatientByNHSNo = (nhsNo) => {
 	return new Promise((resolve, reject) => {

@@ -1,0 +1,30 @@
+{
+	"resourceType": "Parameters",
+	"parameter": [{
+			"name": "patientNHSNumber",
+			"valueIdentifier": {
+				"system": "https://fhir.nhs.uk/Id/nhs-number",
+				"value": ""
+			}
+		},
+		{
+			"name": "includeAllergies",
+			"part": [{
+				"name": "includeResolvedAllergies",
+				"valueBoolean": true
+			}]
+		},
+		{
+			"name": "includeMedication",
+			"part": [{
+					"name": "includePrescriptionIssues",
+					"valueBoolean": true
+				},
+				{
+					"name": "medicationSearchFromDate",
+					"valueDate": "2015-01-01"
+				}
+			]
+		}
+	]
+}

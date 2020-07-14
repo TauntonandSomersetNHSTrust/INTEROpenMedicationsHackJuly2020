@@ -76,8 +76,20 @@ const getPatientByNHSNo = async (req, res) => {
 	}
 };
 
+const getStructuredRecordByNhsNo = async (req, res) => {
+	const response = await gpc.getStructuredMedicalRecord(req.params.nhsno);
+	if (response) {
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+};
+
+
+
 //routes
 router.get('/metadata', asyncMiddleware(metadata));
 router.get('/patient/:nhsno', asyncMiddleware(getPatientByNHSNo));
+router.get('/structured/:nhsno', asyncMiddleware(getStructuredRecordByNhsNo));
 
 module.exports = router;
