@@ -4,8 +4,31 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "dev": "set NODE_ENV=development && nodemon src/server.js",
+    "lint": "eslint src/**/*.js --fix",
+    "start": "set NODE_ENV=production && node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "custom-env": "^2.0.1",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.7.0",
+    "nocache": "^2.1.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-json": "^2.1.1",
+    "nodemon": "^2.0.2"
+  }
 }
