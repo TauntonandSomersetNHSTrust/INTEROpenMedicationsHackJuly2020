@@ -1,0 +1,643 @@
+archetype (adl_version=1.4; uid=d9c1ee12-096c-435c-b1bc-97cd3d3c4d0d)
+	openEHR-EHR-EVALUATION.interopen_hackathon_poac.v0
+
+concept
+	[at0000]
+
+language
+	original_language = <[ISO_639-1::en]>
+
+description
+	original_author = <
+		["date"] = <"2020-07-14">
+	>
+	lifecycle_state = <"unmanaged">
+	details = <
+		["en"] = <
+			language = <[ISO_639-1::en]>
+		>
+	>
+	other_details = <
+		["licence"] = <"This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.">
+		["custodian_organisation"] = <"openEHR Foundation">
+		["original_namespace"] = <"org.openehr">
+		["original_publisher"] = <"openEHR Foundation">
+		["custodian_namespace"] = <"org.openehr">
+		["build_uid"] = <"7b469078-091c-3525-97e0-0953e3c72e01">
+	>
+
+definition
+	EVALUATION[at0000] matches {    -- Interopen Hackathon POAC
+		data matches {
+			ITEM_TREE[at0001] matches {    -- Item tree
+				items cardinality matches {0..*; unordered} matches {
+					CLUSTER[at0004] occurrences matches {0..1} matches {    -- Allergies
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0005] occurrences matches {0..1} matches {    -- Do you have allergies/adverse reactions to food or medication?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0006] occurrences matches {0..1} matches {    -- Allergies
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+							ELEMENT[at0007] occurrences matches {0..1} matches {    -- Adverse reaction
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+							ELEMENT[at0008] occurrences matches {0..1} matches {    -- Other
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					ELEMENT[at0014] occurrences matches {0..1} matches {    -- Have you had a pre-operative appointment in the last 6 months?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					CLUSTER[at0009] occurrences matches {0..1} matches {    -- Blood Thinning Medication
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0030] occurrences matches {0..1} matches {    -- Do you take any blood thinning medication?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0011] occurrences matches {0..1} matches {    -- Medications
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					CLUSTER[at0015] occurrences matches {0..1} matches {    -- Diabetes
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0029] occurrences matches {0..1} matches {    -- Do you have diabetes, which requires medication?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0016] occurrences matches {0..1} matches {    -- Medications
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					CLUSTER[at0017] occurrences matches {0..1} matches {    -- High Blood Pressure
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0028] occurrences matches {0..1} matches {    -- Do you have high blood pressure?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0018] occurrences matches {0..1} matches {    -- Do you take medication for high blood pressure?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0019] occurrences matches {0..1} matches {    -- Medications
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					ELEMENT[at0022] occurrences matches {0..1} matches {    -- Do you suffer from angina?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0023] occurrences matches {0..1} matches {    -- Do you suffer from chest pain?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0024] occurrences matches {0..1} matches {    -- Do you have a pacemaker?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					CLUSTER[at0025] occurrences matches {0..1} matches {    -- Asthma
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0031] occurrences matches {0..1} matches {    -- Do you have asthma?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0026] occurrences matches {0..1} matches {    -- Do you take anything other than standard inhalers?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0027] occurrences matches {0..1} matches {    -- Medications
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					CLUSTER[at0032] occurrences matches {0..1} matches {    -- COPD
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0033] occurrences matches {0..1} matches {    -- Do you have asthma?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0034] occurrences matches {0..1} matches {    -- Do you take anything other than standard inhalers?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0035] occurrences matches {0..1} matches {    -- Medications
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					ELEMENT[at0036] occurrences matches {0..1} matches {    -- Do you have sleep apnoea?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0037] occurrences matches {0..1} matches {    -- Have you ever had kidney disease?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0038] occurrences matches {0..1} matches {    -- Have you ever had kidney failure?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					CLUSTER[at0039] occurrences matches {0..1} matches {    -- Thyroid Issues
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0040] occurrences matches {0..1} matches {    -- Do you have any thyroid issues?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0041] occurrences matches {0..1} matches {    -- Do you take medication for your thyroid?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0042] occurrences matches {0..1} matches {    -- Medications
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					ELEMENT[at0043] occurrences matches {0..1} matches {    -- Have you ever had a clot in your legs?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0044] occurrences matches {0..1} matches {    -- Have you ever had a clot in your lungs?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0045] occurrences matches {0..1} matches {    -- Do you or a family relative have a history of a bleeding disorder?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0046] occurrences matches {0..1} matches {    -- Do you or a family relative have a history of a clotting disorder?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0047] occurrences matches {0..1} matches {    -- Have you ever had a TIA?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0048] occurrences matches {0..1} matches {    -- Have you ever had a Stroke?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0049] occurrences matches {0..1} matches {    -- Do you have epilepsy?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					CLUSTER[at0050] occurrences matches {0..1} matches {    -- Nerve/Muscle Disease
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0051] occurrences matches {0..1} matches {    -- Do you have any diseases of the nerves or muscles? (eg MS, Myasthenia Gravis)
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0053] occurrences matches {0..1} matches {    -- Please Specify
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					CLUSTER[at0057] occurrences matches {0..1} matches {    -- Immunology Disorders
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0058] occurrences matches {0..1} matches {    -- Do you suffer with any immunology disorders?
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0059] occurrences matches {0..1} matches {    -- Please Specify
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					CLUSTER[at0054] occurrences matches {0..1} matches {    -- Anaesthetic Reactions
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0055] occurrences matches {0..1} matches {    -- Have you or a blood relative ever had a serious problem with an anaesthetic? (not including nausea and vomiting)
+								value matches {
+									DV_BOOLEAN matches {*}
+								}
+							}
+							ELEMENT[at0056] occurrences matches {0..1} matches {    -- Please Specify
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+					ELEMENT[at0060] occurrences matches {0..1} matches {    -- Do you regularly drink more than 30 units of alcohol per week?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0061] occurrences matches {0..1} matches {    -- Are you a SMOKER/Vaper?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0062] occurrences matches {0..1} matches {    -- Do you take HRT?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0063] occurrences matches {0..1} matches {    -- Do you take the Oral Contraceptive Pill?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0064] occurrences matches {0..1} matches {    -- Would you struggle to manage 2 flights of steps without stopping?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0065] occurrences matches {0..1} matches {    -- During the last 12 months have you lived abroad for more than 3 months?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0066] occurrences matches {0..1} matches {    -- During the last 12 months have you stayed in hospital overnight outside the uk?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0067] occurrences matches {0..1} matches {    -- During the last 12 month have you stayed in a uk hospital overnight, excluding MPH, Yeovil and Somerset community
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0068] occurrences matches {0..1} matches {    -- Have you ever been in a household or had ward contact of a known case of Carbapenemase Producing Enterobacteriaceae (CPE)
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0069] occurrences matches {0..1} matches {    -- Have you ever been colonised or had an infection with CPE bacteria?
+						value matches {
+							DV_BOOLEAN matches {*}
+						}
+					}
+					ELEMENT[at0070] occurrences matches {0..1} matches {    -- Is there any other information you would like to provide?
+						value matches {
+							DV_TEXT matches {*}
+						}
+					}
+					ELEMENT[at0071] occurrences matches {0..1} matches {    -- Please list your regular medication (not mentioned previously).
+						value matches {
+							DV_TEXT matches {*}
+						}
+					}
+					CLUSTER[at0074] occurrences matches {0..1} matches {    -- External Data
+						items cardinality matches {1..*; unordered} matches {
+							ELEMENT[at0075] occurrences matches {0..1} matches {    -- Medication History
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+							ELEMENT[at0076] occurrences matches {0..1} matches {    -- Item 2
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+							ELEMENT[at0077] occurrences matches {0..1} matches {    -- Item 3
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		protocol matches {
+			ITEM_TREE[at0073] matches {*}    -- Item tree
+		}
+	}
+
+ontology
+	term_definitions = <
+		["en"] = <
+			items = <
+				["at0000"] = <
+					text = <"Interopen Hackathon POAC">
+					description = <"Interopen Hackathon POAC">
+				>
+				["at0001"] = <
+					text = <"Item tree">
+					description = <"@ internal @">
+				>
+				["at0004"] = <
+					text = <"Allergies">
+					description = <"">
+				>
+				["at0005"] = <
+					text = <"Do you have allergies/adverse reactions to food or medication?">
+					description = <"">
+				>
+				["at0006"] = <
+					text = <"Allergies">
+					description = <"">
+				>
+				["at0007"] = <
+					text = <"Adverse reaction">
+					description = <"">
+				>
+				["at0008"] = <
+					text = <"Other">
+					description = <"">
+				>
+				["at0009"] = <
+					text = <"Blood Thinning Medication">
+					description = <"">
+				>
+				["at0011"] = <
+					text = <"Medications">
+					description = <"">
+				>
+				["at0014"] = <
+					text = <"Have you had a pre-operative appointment in the last 6 months?">
+					description = <"">
+				>
+				["at0015"] = <
+					text = <"Diabetes">
+					description = <"">
+				>
+				["at0016"] = <
+					text = <"Medications">
+					description = <"">
+				>
+				["at0017"] = <
+					text = <"High Blood Pressure">
+					description = <"">
+				>
+				["at0018"] = <
+					text = <"Do you take medication for high blood pressure?">
+					description = <"">
+				>
+				["at0019"] = <
+					text = <"Medications">
+					description = <"">
+				>
+				["at0022"] = <
+					text = <"Do you suffer from angina?">
+					description = <"">
+				>
+				["at0023"] = <
+					text = <"Do you suffer from chest pain?">
+					description = <"">
+				>
+				["at0024"] = <
+					text = <"Do you have a pacemaker?">
+					description = <"">
+				>
+				["at0025"] = <
+					text = <"Asthma">
+					description = <"">
+				>
+				["at0026"] = <
+					text = <"Do you take anything other than standard inhalers?">
+					description = <"">
+				>
+				["at0027"] = <
+					text = <"Medications">
+					description = <"">
+				>
+				["at0028"] = <
+					text = <"Do you have high blood pressure?">
+					description = <"">
+				>
+				["at0029"] = <
+					text = <"Do you have diabetes, which requires medication?">
+					description = <"">
+				>
+				["at0030"] = <
+					text = <"Do you take any blood thinning medication?">
+					description = <"">
+				>
+				["at0031"] = <
+					text = <"Do you have asthma?">
+					description = <"">
+				>
+				["at0032"] = <
+					text = <"COPD">
+					description = <"">
+				>
+				["at0033"] = <
+					text = <"Do you have asthma?">
+					description = <"">
+				>
+				["at0034"] = <
+					text = <"Do you take anything other than standard inhalers?">
+					description = <"">
+				>
+				["at0035"] = <
+					text = <"Medications">
+					description = <"">
+				>
+				["at0036"] = <
+					text = <"Do you have sleep apnoea?">
+					description = <"">
+				>
+				["at0037"] = <
+					text = <"Have you ever had kidney disease?">
+					description = <"">
+				>
+				["at0038"] = <
+					text = <"Have you ever had kidney failure?">
+					description = <"">
+				>
+				["at0039"] = <
+					text = <"Thyroid Issues">
+					description = <"">
+				>
+				["at0040"] = <
+					text = <"Do you have any thyroid issues?">
+					description = <"">
+				>
+				["at0041"] = <
+					text = <"Do you take medication for your thyroid?">
+					description = <"">
+				>
+				["at0042"] = <
+					text = <"Medications">
+					description = <"">
+				>
+				["at0043"] = <
+					text = <"Have you ever had a clot in your legs?">
+					description = <"">
+				>
+				["at0044"] = <
+					text = <"Have you ever had a clot in your lungs?">
+					description = <"">
+				>
+				["at0045"] = <
+					text = <"Do you or a family relative have a history of a bleeding disorder?">
+					description = <"">
+				>
+				["at0046"] = <
+					text = <"Do you or a family relative have a history of a clotting disorder?">
+					description = <"">
+				>
+				["at0047"] = <
+					text = <"Have you ever had a TIA?">
+					description = <"">
+				>
+				["at0048"] = <
+					text = <"Have you ever had a Stroke?">
+					description = <"">
+				>
+				["at0049"] = <
+					text = <"Do you have epilepsy?">
+					description = <"">
+				>
+				["at0050"] = <
+					text = <"Nerve/Muscle Disease">
+					description = <"">
+				>
+				["at0051"] = <
+					text = <"Do you have any diseases of the nerves or muscles? (eg MS, Myasthenia Gravis)">
+					description = <"">
+				>
+				["at0053"] = <
+					text = <"Please Specify">
+					description = <"">
+				>
+				["at0054"] = <
+					text = <"Anaesthetic Reactions">
+					description = <"">
+				>
+				["at0055"] = <
+					text = <"Have you or a blood relative ever had a serious problem with an anaesthetic? (not including nausea and vomiting)">
+					description = <"">
+				>
+				["at0056"] = <
+					text = <"Please Specify">
+					description = <"">
+				>
+				["at0057"] = <
+					text = <"Immunology Disorders">
+					description = <"">
+				>
+				["at0058"] = <
+					text = <"Do you suffer with any immunology disorders?">
+					description = <"">
+				>
+				["at0059"] = <
+					text = <"Please Specify">
+					description = <"">
+				>
+				["at0060"] = <
+					text = <"Do you regularly drink more than 30 units of alcohol per week?">
+					description = <"">
+				>
+				["at0061"] = <
+					text = <"Are you a SMOKER/Vaper?">
+					description = <"">
+				>
+				["at0062"] = <
+					text = <"Do you take HRT?">
+					description = <"">
+				>
+				["at0063"] = <
+					text = <"Do you take the Oral Contraceptive Pill?">
+					description = <"">
+				>
+				["at0064"] = <
+					text = <"Would you struggle to manage 2 flights of steps without stopping?">
+					description = <"">
+				>
+				["at0065"] = <
+					text = <"During the last 12 months have you lived abroad for more than 3 months?">
+					description = <"">
+				>
+				["at0066"] = <
+					text = <"During the last 12 months have you stayed in hospital overnight outside the uk?">
+					description = <"">
+				>
+				["at0067"] = <
+					text = <"During the last 12 month have you stayed in a uk hospital overnight, excluding MPH, Yeovil and Somerset community">
+					description = <"">
+				>
+				["at0068"] = <
+					text = <"Have you ever been in a household or had ward contact of a known case of Carbapenemase Producing Enterobacteriaceae (CPE)">
+					description = <"">
+				>
+				["at0069"] = <
+					text = <"Have you ever been colonised or had an infection with CPE bacteria?">
+					description = <"">
+				>
+				["at0070"] = <
+					text = <"Is there any other information you would like to provide?">
+					description = <"">
+				>
+				["at0071"] = <
+					text = <"Please list your regular medication (not mentioned previously).">
+					description = <"">
+				>
+				["at0073"] = <
+					text = <"Item tree">
+					description = <"@ internal @">
+				>
+				["at0074"] = <
+					text = <"External Data">
+					description = <"">
+				>
+				["at0075"] = <
+					text = <"Medication History">
+					description = <"">
+				>
+				["at0076"] = <
+					text = <"Item 2">
+					description = <"">
+				>
+				["at0077"] = <
+					text = <"Item 3">
+					description = <"">
+				>
+			>
+		>
+	>
