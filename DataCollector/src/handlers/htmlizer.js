@@ -1,12 +1,11 @@
 exports.medicineJSONToHTML = (json) => {
 	return new Promise((resolve, reject) => {
-		let table = '<table class="table"><th>Start Date</th><th>Medication</th><th>Dosage</th><th>Additional</th><th>Duration</th>';
+		let table = '<table class="table"><th>Start Date</th><th>Medication - Dosage</th><th>Additional</th><th>Duration</th>';
 		for(let e of json.entry) {
 			table += '<tr>';
 			let d = new Date(e.startDate);
 			table += `<td>${d.getFullYear()}-${d.getMonth()}-${d.getDate()}</td>`;
-			table += `<td>${e.medication}</td>`;
-			table += `<td>${e.dosage}</td>`;
+			table += `<td>${e.medication} - ${e.dosage}</td>`;
 			table += `<td>${e.additional}</td>`;
 			table += `<td>${e.duration}</td>`;
 			table += '</tr>';
