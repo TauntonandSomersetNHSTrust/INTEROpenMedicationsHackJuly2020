@@ -126,6 +126,13 @@ exports.getPatientByNHSNo = (nhsNo) => {
 	});
 }
 
+exports.getMedicineInfoByNhsNoDemo = (nhsNo) => {
+	return new Promise((resolve, reject) => {
+		const body =  require('./../secure/medicine/'+nhsNo+'.json');
+		return resolve(body);
+	});
+};
+
 exports.metadata = () => {
 	return new Promise((resolve, reject) => {
 		const options = {
