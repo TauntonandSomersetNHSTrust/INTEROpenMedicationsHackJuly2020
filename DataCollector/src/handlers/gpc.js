@@ -93,6 +93,13 @@ exports.getStructuredMedicalRecordDemo = (nhsNo) => {
 	});
 };
 
+exports.getAlergryInfoByNhsNoDemo= (nhsNo) => {
+	return new Promise((resolve, reject) => {
+		const body =  require('./../secure/allergy/'+nhsNo+'.json');
+		return resolve(body);
+	});
+};
+
 exports.getPatientByNHSNo = (nhsNo) => {
 	return new Promise((resolve, reject) => {
 		const options = {

@@ -18,7 +18,7 @@
 			"name": "includeMedication",
 			"part": [{
 					"name": "includePrescriptionIssues",
-					"valueBoolean": true
+					"valueBoolean": false
 				},
 				{
 					"name": "medicationSearchFromDate",
