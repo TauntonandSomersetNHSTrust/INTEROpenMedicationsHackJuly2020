@@ -64,7 +64,7 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 
 					const reqRef = stat.basedOn[0].reference.split('/');
 					const medreq = reqs.find((r) => {
-						r.id = reqRef[1];
+						return r.id = reqRef[1];
 					});
 					console.log('med req ref:', reqRef, medreq, stat.basedOn[0].reference);
 
@@ -75,7 +75,7 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 
 					const drugRef = stat.medicationReference.reference.split('/');
 					const meddrug = drugs.find((d) => {
-						d.id = drugRef[1];
+						return d.id = drugRef[1];
 					});
 
 					if(meddrug) {
