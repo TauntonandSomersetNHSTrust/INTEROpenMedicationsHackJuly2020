@@ -111,11 +111,9 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 									}
 								}
 							}
-<<<<<<< HEAD
 
-=======
 							console.log("more searching.....");
->>>>>>> 2c759fcebfc5b3accfb760d73d0f8b54574ab9a1
+
 							if(found === false && GPStructured.entry.length > 0){
 								const type = eId.split('/')[0] ? eId.split('/')[0].replace('/') : eId.split('/')[0];
 								const id = eId.split('/')[1] ? eId.split('/')[1].replace('/') : eId.split('/')[0];
@@ -126,15 +124,10 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 									}
 								}
 							}
-<<<<<<< HEAD
-
-=======
 							
 							if(found === false) {
 								let shinyEntry = GPStructured.entry[a].resource.entry[x].item;
 							}
-						
->>>>>>> 2c759fcebfc5b3accfb760d73d0f8b54574ab9a1
 							tidylist.entries.push(shinyEntry);
 						}
 					}
