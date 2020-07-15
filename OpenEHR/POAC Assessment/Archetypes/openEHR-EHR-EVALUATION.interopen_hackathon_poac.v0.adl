@@ -23,6 +23,7 @@ description
 		["original_namespace"] = <"org.openehr">
 		["original_publisher"] = <"openEHR Foundation">
 		["custodian_namespace"] = <"org.openehr">
+		["MD5-CAM-1.0.1"] = <"d382bd985de6570508b94bdfea38ef0a">
 		["build_uid"] = <"7b469078-091c-3525-97e0-0953e3c72e01">
 	>
 
@@ -38,19 +39,23 @@ definition
 									DV_BOOLEAN matches {*}
 								}
 							}
-							ELEMENT[at0006] occurrences matches {0..1} matches {    -- Allergies
-								value matches {
-									DV_TEXT matches {*}
-								}
-							}
-							ELEMENT[at0007] occurrences matches {0..1} matches {    -- Adverse reaction
-								value matches {
-									DV_TEXT matches {*}
-								}
-							}
-							ELEMENT[at0008] occurrences matches {0..1} matches {    -- Other
-								value matches {
-									DV_TEXT matches {*}
+							CLUSTER[at0078] occurrences matches {0..100} matches {    -- Allergy
+								items cardinality matches {1..*; unordered} matches {
+									ELEMENT[at0006] occurrences matches {0..1} matches {    -- Allergy Name
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
+									ELEMENT[at0007] occurrences matches {0..1} matches {    -- Adverse reaction
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
+									ELEMENT[at0008] occurrences matches {0..1} matches {    -- Other
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
 								}
 							}
 						}
@@ -379,7 +384,7 @@ ontology
 					description = <"">
 				>
 				["at0006"] = <
-					text = <"Allergies">
+					text = <"Allergy Name">
 					description = <"">
 				>
 				["at0007"] = <
@@ -636,6 +641,10 @@ ontology
 				>
 				["at0077"] = <
 					text = <"Item 3">
+					description = <"">
+				>
+				["at0078"] = <
+					text = <"Allergy">
 					description = <"">
 				>
 			>
