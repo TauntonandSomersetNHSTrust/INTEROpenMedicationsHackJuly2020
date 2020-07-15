@@ -118,8 +118,18 @@ const getAlergyInfoByNhsNo = async (req,res) => {
 
 const getMedicineInfoByNhsNo = async (req,res) => {
 	const struct = await gpc.getStructuredMedicalRecord(req.params.nhsno);
-	const json  = await normal.getNormalizedMedicineInfo(struct);
-	const response  = await htmlizer.medicineJSONToHTML(json);
+	const response = await normal.getNormalizedMedicineInfo(struct);
+	if (response) {
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+};
+
+const getMedicineInfoByNhsNoAsHtml = async (req,res) => {
+	const struct = await gpc.getStructuredMedicalRecord(req.params.nhsno);
+	const json = await normal.getNormalizedMedicineInfo(struct);
+	const response = await htmlizer.medicineJSONToHTML(json);
 	if (response) {
 		res.json(response);
 	} else {
@@ -156,6 +166,6 @@ router.get('/GPCSummary/:nhsno', asyncMiddleware(getSummaryRecordByNhsNo));
 router.get('/allergydemo/:nhsno', asyncMiddleware(getAlergyInfoByNhsNoDemo));
 router.get('/allergy/:nhsno', asyncMiddleware(getAlergyInfoByNhsNo));
 router.get('/html/allergy/:nhsno', asyncMiddleware(getAlergyInfoByNhsNoAsHTML));
-router.get('/html/medicine/:nhsno', asyncMiddleware(getMedicineInfoByNhsNo));
+router.get('/medicine/:nhsno', asyncMiddleware(getMedicineInfoByNhsNo));
 
 module.exports = router;

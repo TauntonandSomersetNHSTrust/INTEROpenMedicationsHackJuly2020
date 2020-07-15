@@ -15,6 +15,8 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 		let reqs = [];
 		let drugs = [];
 
+		console.log('struc:', structuredRecord);
+
 		for(let r of structuredRecord.entry) {
 			if(r.resource.resourceType === 'List' && r.resource.title.includes('Medications and')) {
 				meds.push(r.resource);
@@ -24,52 +26,67 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 				stats.push(r.resource);
 			}
 
+
 			if(r.resource.resourceType === 'Medication') {
 				drugs.push(r.resource);
 			}
+
 
 			if(r.resource.resourceType === 'MedicationRequest') {
 				reqs.push(r.resource);
 			}
 
-			let body = {
-				resourceType: structuredRecord.resourceType,
-				meta: structuredRecord.meta,
-				type: structuredRecord.type,
-				entry: []
-			};
+		}
+		console.log('statements: ', meds);
+		console.log('stats: ', stats);
+		console.log('drugs: ', drugs);
+		console.log('reqs: ', reqs);
 
-			for(let m of meds) {
-				let newEntry = [];
-				for(let e of m.entry)
-				{
-					let details = {};
-					const statRef = e.item.reference.split('/');
-					const stat = stats.find((s) => {
-						return s.id == statRef[1];
+		let body = {
+			resourceType: structuredRecord.resourceType,
+			meta: structuredRecord.meta,
+			type: structuredRecord.type,
+			entry: []
+		};
+
+
+		for(let m of meds) {
+			for(let e of m.entry) {
+				let details = {};
+				const statRef = e.item.reference.split('/');
+				const stat = stats.find((s) => {
+					return s.id == statRef[1];
+				});
+
+				if(stat) {
+					details.dosage = stat.dosage[0].text;
+					details.additional = stat.dosage[0].patientInstruction;
+
+					const reqRef = stat.basedOn[0].reference.split('/');
+					const medreq = reqs.find((r) => {
+						r.id = reqRef[1];
+					});
+					console.log('med req ref:', reqRef, medreq, stat.basedOn[0].reference);
+
+					if(medreq) {
+						details.duration = medreq.dispenseRequest.expectedSupplyDuration.value;
+						details.startDate = medreq.dispenseRequest.validityPeriod.start;
+					}
+
+					const drugRef = stat.medicationReference.reference.split('/');
+					const meddrug = drugs.find((d) => {
+						d.id = drugRef[1];
 					});
 
-					if(stat) {
-						details.dosage = stat.dosage[0].text;
-						details.additional = stat.dosage[1].patientInstruction;
-						const reqRef = details.medicationReference.reference.split('/');
-						const medreq = reqs.find((r) => {
-							r.id = reqRef[1];
-						});
-						
-						if(medreq) {
-							details.duration = medreq.dispenseRequest.expectedSupplyDuration.value;
-							details.startDate = medreq.dispenseRequest.validityPeriod.start;
-						}
-
-						const drugRef = details.medicationReference.reference.split('/');
-						const meddrug = drugs.find((d) => {
-							d.id = drugRef[1];
-						});
+					if(meddrug) {
+						details.medication = meddrug.code.coding[0].display;
 					}
 				}
+				body.entry.push(details);
 			}
-	}):
+		}
+		return resolve(body);
+	});
 };
 
 exports.getNormalizedAllergyInfo = (structuredRecord) => {
@@ -189,8 +206,8 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 							console.log("searching.....");
 							let found = false;
 							console.log(GPStructured.entry[a].resource);
-							if(GPStructured.entry[a].resource.contained && GPStructured.entry[a].resource.contained > 0) { // Are We Self Contained?
-								for (let b = 0; b < GPStructured.entry[a].resource.contained.length; b++) {
+							if(GPStructured.entry[a].resource.contained && GPStructured.entry[a].resource.contained.length > 0) { // Are We Self Contained?
+								for (let b = 0; b < GPStructured.entry[a].resource.entry[x].contained.length; b++) {
 									console.log(GPStructured.entry[a].resource.entry[x].contained[b]);
 									if(GPStructured.entry[a].resource.entry[x].contained[b] && GPStructured.entry[a].resource.entry[x].contained[b].toLowerCase() === eId.toLowerCase()) {
 										shinyEntry = GPStructured.entry[a].resource.entry[x].contained[b];
@@ -204,7 +221,7 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 							if(found === false && GPStructured.entry.length > 0){
 								const type = eId.split('/')[0] ? eId.split('/')[0].replace('/') : eId.split('/')[0];
 								const id = eId.split('/')[1] ? eId.split('/')[1].replace('/') : eId.split('/')[0];
-								for (let sEntry in GPStructured.entry) {
+								for (sEntry in GPStructured.entry) {
 									if(sEntry.resourceType && sEntry.resourceType.toLowerCase() === type.toLowerCase() && sEntry.id && sEntry.id == id ) {
 										shinyEntry = sEntry;
 										found=true;
