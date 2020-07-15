@@ -2,17 +2,75 @@
 function searchObj(needle, haystack) {
 	let found = false;
 	let key = null;
-	
+
 	result = { found, key };
 	return result;
-	
+
+}
+
+exports.getNormalizedAllergyInfo = (structuredRecord) => {
+	return new Promise((resolve, reject) => {
+		let body = {
+			resourceType: structuredRecord.resourceType,
+			meta: structuredRecord.meta,
+			type: structuredRecord.type,
+			entry: []
+		};
+
+		const currentAllergies = structuredRecord.entry.filter((e) => {
+			return e.resource.resourceType === "AllergyIntolerance";
+		});
+
+		console.log('current allergies:', currentAllergies);
+
+		const lists = structuredRecord.entry.filter((e) => {
+			return e.resource.resourceType === "List";
+		});
+
+		const formerLists = lists.filter((l) => {
+			return l.resource.title === "Ended allergies";
+		});
+
+		console.log('Former lists:', formerLists);
+
+		const currentLists = lists.filter((l) => {
+			return l.resource.title.includes('Allergies');
+		});
+
+		console.log('Current Lists:', currentLists);
+
+		for(let cl of currentLists) {
+			let entry = cl.resource.entry;
+			let newEntry = [];
+			for(let e of entry) {
+				const allergyRef = e.item.reference;
+				if(allergyRef) {
+					const r = allergyRef.split('/');
+					if(r && r.length == 2) {
+						const aRecord = currentAllergies.find((a) => {
+							return a.resource.id == r[1];
+						});
+						if(aRecord) {
+							newEntry.push(aRecord);
+						}
+					}
+				}
+			}
+
+			cl.resource.entry = newEntry;
+		}
+
+		body.entry = [...currentLists, ...formerLists];
+
+		return resolve(body);
+	});
 }
 
 exports.getSummaryFromGPCStructured = (GPStructured) => {
 	return new Promise((resolve, reject) => {
 		console.log(GPStructured);
 		let collection = {};
-		
+
 		for (let a = 0; a< GPStructured.entry.length; a++) {
 			if(GPStructured.entry[a].resource.resourceType) {
 				//console.log(GPStructured.entry[i].resource.resourceType); // Or some other logic.
@@ -45,7 +103,7 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 									}
 								}
 							}
-							
+
 							if(found === false && GPStructured.entry.length > 0){
 								const type = eId.split('/')[0].replace('/');
 								const id = eId.split('/')[1].replace('/');
@@ -56,18 +114,18 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 									}
 								}
 							}
-						
+
 							tidylist.entries.push(shinyEntry);
 						}
 					}
 				}
 			}
-			
+
 		}
-		
+
 		console.log (collection);
 		const body =  collection;
-		
+
 		return resolve(body);
 
 	});
