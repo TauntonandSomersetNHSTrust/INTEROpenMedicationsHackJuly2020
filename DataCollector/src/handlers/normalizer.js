@@ -33,6 +33,30 @@ exports.getNormalizedAllergyInfo = (structuredRecord) => {
 
 		console.log('Former lists:', formerLists);
 
+		for(let fl of formerLists) {
+			let entry = fl.resource.entry;
+			let newEntry = [];
+			for(let e of entry) {
+				const allergyRef = e.item.reference;
+				if(allergyRef) {
+					const r = allergyRef.split('#');
+					console.log(r);
+					if(r && r.length == 2) {
+						const aRecord = fl.resource.contained.find((a) => {
+							console.log('Looking for: ', a.id, a.resourceType)
+							return a.resourceType === 'AllergyIntolerance' && a.id == r[1];
+						});
+						console.log(aRecord);
+						if(aRecord) {
+							newEntry.push({resource: aRecord});
+						}
+					}
+				}
+			}
+			fl.resource.contained = [];
+			fl.resource.entry = newEntry;
+		}
+
 		const currentLists = lists.filter((l) => {
 			return l.resource.title.includes('Allergies');
 		});
@@ -56,7 +80,6 @@ exports.getNormalizedAllergyInfo = (structuredRecord) => {
 					}
 				}
 			}
-
 			cl.resource.entry = newEntry;
 		}
 
@@ -85,11 +108,11 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 						code : GPStructured.entry[a].resource.code,
 						entries :[]
 					}
-					
+
 					// console.log(tidylist);
 					// console.log('');
 					// collection[GPStructured.entry[a].resource.resourceType].push(tidylist);
-					
+
 					if(GPStructured.entry[a].resource.entry && GPStructured.entry[a].resource.entry.length > 0) {
 						for (let x = 0; x < GPStructured.entry[a].resource.entry.length; x++ ){
 							console.log(GPStructured.entry[a].resource.entry[x]);
@@ -124,7 +147,7 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 									}
 								}
 							}
-							
+
 							if(found === false) {
 								let shinyEntry = GPStructured.entry[a].resource.entry[x].item;
 							}
