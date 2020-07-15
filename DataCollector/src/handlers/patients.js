@@ -131,7 +131,7 @@ const getMedicineInfoByNhsNoAsHtml = async (req,res) => {
 	const json = await normal.getNormalizedMedicineInfo(struct);
 	const response = await htmlizer.medicineJSONToHTML(json);
 	if (response) {
-		res.json(response);
+		res.send(response);
 	} else {
 		res.status(500).end();
 	}
@@ -167,5 +167,6 @@ router.get('/allergydemo/:nhsno', asyncMiddleware(getAlergyInfoByNhsNoDemo));
 router.get('/allergy/:nhsno', asyncMiddleware(getAlergyInfoByNhsNo));
 router.get('/html/allergy/:nhsno', asyncMiddleware(getAlergyInfoByNhsNoAsHTML));
 router.get('/medicine/:nhsno', asyncMiddleware(getMedicineInfoByNhsNo));
+router.get('/html/medicine/:nhsno', asyncMiddleware(getMedicineInfoByNhsNoAsHtml));
 
 module.exports = router;
