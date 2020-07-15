@@ -4,6 +4,7 @@ const rp = require('request-promise');
 const verifyToken = require('./verify-token');
 const login = require('./login');
 const gpc = require('./gpc');
+const normal = require('./normalizer');
 const router = express.Router();
 
 
@@ -94,12 +95,21 @@ const getStructuredRecordByNhsNoDemo = async (req, res) => {
 	}
 };
 
-
+const getSummaryRecordByNhsNo = async (req,res) => {
+	const structgpc = await gpc.getStructuredMedicalRecordDemo(req.params.nhsno);
+	const response = await normal.getSummaryFromGPCStructured(structgpc);
+	if (response) {
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+}
 
 //routes
 router.get('/metadata', asyncMiddleware(metadata));
 router.get('/patient/:nhsno', asyncMiddleware(getPatientByNHSNo));
 router.get('/structured/:nhsno', asyncMiddleware(getStructuredRecordByNhsNo));
 router.get('/structureddemo/:nhsno', asyncMiddleware(getStructuredRecordByNhsNoDemo));
+router.get('/GPCSummary/:nhsno', asyncMiddleware(getSummaryRecordByNhsNo));
 
 module.exports = router;
