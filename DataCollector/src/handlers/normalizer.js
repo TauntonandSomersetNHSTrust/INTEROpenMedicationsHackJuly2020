@@ -28,6 +28,7 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 
 
 			if(r.resource.resourceType === 'Medication') {
+				console.log(r.resource.id, r.resource.code.coding[0].display);
 				drugs.push(r.resource);
 			}
 
@@ -37,10 +38,10 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 			}
 
 		}
-		console.log('statements: ', meds);
-		console.log('stats: ', stats);
-		console.log('drugs: ', drugs);
-		console.log('reqs: ', reqs);
+		// console.log('statements: ', meds);
+		// console.log('stats: ', stats);
+		// console.log('drugs: ', drugs);
+		// console.log('reqs: ', reqs);
 
 		let body = {
 			resourceType: structuredRecord.resourceType,
@@ -51,31 +52,36 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 
 
 		for(let m of meds) {
+			//console.log('entries:', m.entry);
 			for(let e of m.entry) {
+
 				let details = {};
 				const statRef = e.item.reference.split('/');
 				const stat = stats.find((s) => {
 					return s.id == statRef[1];
 				});
 
+				//console.log(stat);
 				if(stat) {
+
 					details.dosage = stat.dosage[0].text;
 					details.additional = stat.dosage[0].patientInstruction;
+					details.startDate = stat.effectivePeriod.start;
 
 					const reqRef = stat.basedOn[0].reference.split('/');
 					const medreq = reqs.find((r) => {
 						return r.id = reqRef[1];
 					});
-					console.log('med req ref:', reqRef, medreq, stat.basedOn[0].reference);
 
 					if(medreq) {
 						details.duration = medreq.dispenseRequest.expectedSupplyDuration.value;
-						details.startDate = medreq.dispenseRequest.validityPeriod.start;
 					}
 
 					const drugRef = stat.medicationReference.reference.split('/');
+					//console.log('looking for... ', drugRef);
 					const meddrug = drugs.find((d) => {
-						return d.id = drugRef[1];
+						//console.log('drug', d.code.coding[0].display, d.id);
+						return d.id == drugRef[1];
 					});
 
 					if(meddrug) {
