@@ -8,6 +8,70 @@ function searchObj(needle, haystack) {
 
 }
 
+exports.getNormalizedMedicineInfo = (structuredRecord) => {
+	return new Promise((resolve, reject) => {
+		let meds = [];
+		let stats = [];
+		let reqs = [];
+		let drugs = [];
+
+		for(let r of structuredRecord.entry) {
+			if(r.resource.resourceType === 'List' && r.resource.title.includes('Medications and')) {
+				meds.push(r.resource);
+			}
+
+			if(r.resource.resourceType === 'MedicationStatement') {
+				stats.push(r.resource);
+			}
+
+			if(r.resource.resourceType === 'Medication') {
+				drugs.push(r.resource);
+			}
+
+			if(r.resource.resourceType === 'MedicationRequest') {
+				reqs.push(r.resource);
+			}
+
+			let body = {
+				resourceType: structuredRecord.resourceType,
+				meta: structuredRecord.meta,
+				type: structuredRecord.type,
+				entry: []
+			};
+
+			for(let m of meds) {
+				let newEntry = [];
+				for(let e of m.entry)
+				{
+					let details = {};
+					const statRef = e.item.reference.split('/');
+					const stat = stats.find((s) => {
+						return s.id == statRef[1];
+					});
+
+					if(stat) {
+						details.dosage = stat.dosage[0].text;
+						details.additional = stat.dosage[1].patientInstruction;
+						const reqRef = details.medicationReference.reference.split('/');
+						const medreq = reqs.find((r) => {
+							r.id = reqRef[1];
+						});
+						
+						if(medreq) {
+							details.duration = medreq.dispenseRequest.expectedSupplyDuration.value;
+							details.startDate = medreq.dispenseRequest.validityPeriod.start;
+						}
+
+						const drugRef = details.medicationReference.reference.split('/');
+						const meddrug = drugs.find((d) => {
+							d.id = drugRef[1];
+						});
+					}
+				}
+			}
+	}):
+};
+
 exports.getNormalizedAllergyInfo = (structuredRecord) => {
 	return new Promise((resolve, reject) => {
 		let body = {
