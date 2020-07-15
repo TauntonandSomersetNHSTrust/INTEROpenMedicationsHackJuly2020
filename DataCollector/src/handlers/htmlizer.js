@@ -1,3 +1,9 @@
+exports.medicineJSONToHTML = () => {
+	return new Promise((resolve, reject) => {
+		
+	});
+};
+
 exports.allergyJSONToHTML = (json) => {
 	return new Promise((resolve, reject) => {
 
