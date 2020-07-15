@@ -189,8 +189,8 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 							console.log("searching.....");
 							let found = false;
 							console.log(GPStructured.entry[a].resource);
-							if(GPStructured.entry[a].resource.contained && GPStructured.entry[a].resource.contained.length > 0) { // Are We Self Contained?
-								for (let b = 0; b < GPStructured.entry[a].resource.entry[x].contained.length; b++) {
+							if(GPStructured.entry[a].resource.contained && GPStructured.entry[a].resource.contained > 0) { // Are We Self Contained?
+								for (let b = 0; b < GPStructured.entry[a].resource.contained.length; b++) {
 									console.log(GPStructured.entry[a].resource.entry[x].contained[b]);
 									if(GPStructured.entry[a].resource.entry[x].contained[b] && GPStructured.entry[a].resource.entry[x].contained[b].toLowerCase() === eId.toLowerCase()) {
 										shinyEntry = GPStructured.entry[a].resource.entry[x].contained[b];
@@ -204,7 +204,7 @@ exports.getSummaryFromGPCStructured = (GPStructured) => {
 							if(found === false && GPStructured.entry.length > 0){
 								const type = eId.split('/')[0] ? eId.split('/')[0].replace('/') : eId.split('/')[0];
 								const id = eId.split('/')[1] ? eId.split('/')[1].replace('/') : eId.split('/')[0];
-								for (sEntry in GPStructured.entry) {
+								for (let sEntry in GPStructured.entry) {
 									if(sEntry.resourceType && sEntry.resourceType.toLowerCase() === type.toLowerCase() && sEntry.id && sEntry.id == id ) {
 										shinyEntry = sEntry;
 										found=true;
