@@ -21,7 +21,7 @@ exports.getNormalizedAllergyInfo = (structuredRecord) => {
 			return e.resource.resourceType === "AllergyIntolerance";
 		});
 
-		console.log('current allergies:', currentAllergies);
+		//console.log('current allergies:', currentAllergies);
 
 		const lists = structuredRecord.entry.filter((e) => {
 			return e.resource.resourceType === "List";
@@ -31,7 +31,7 @@ exports.getNormalizedAllergyInfo = (structuredRecord) => {
 			return l.resource.title === "Ended allergies";
 		});
 
-		console.log('Former lists:', formerLists);
+		//console.log('Former lists:', formerLists);
 
 		for(let fl of formerLists) {
 			let entry = fl.resource.entry;
@@ -40,13 +40,13 @@ exports.getNormalizedAllergyInfo = (structuredRecord) => {
 				const allergyRef = e.item.reference;
 				if(allergyRef) {
 					const r = allergyRef.split('#');
-					console.log(r);
+					//console.log(r);
 					if(r && r.length == 2) {
 						const aRecord = fl.resource.contained.find((a) => {
-							console.log('Looking for: ', a.id, a.resourceType)
+							//console.log('Looking for: ', a.id, a.resourceType)
 							return a.resourceType === 'AllergyIntolerance' && a.id == r[1];
 						});
-						console.log(aRecord);
+						//console.log(aRecord);
 						if(aRecord) {
 							newEntry.push({resource: aRecord});
 						}
@@ -61,7 +61,7 @@ exports.getNormalizedAllergyInfo = (structuredRecord) => {
 			return l.resource.title.includes('Allergies');
 		});
 
-		console.log('Current Lists:', currentLists);
+		//console.log('Current Lists:', currentLists);
 
 		for(let cl of currentLists) {
 			let entry = cl.resource.entry;

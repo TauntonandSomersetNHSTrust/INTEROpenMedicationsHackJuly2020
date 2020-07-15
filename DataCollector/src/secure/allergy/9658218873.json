@@ -35,82 +35,80 @@
         },
         "entry": [
           {
-            "item": {
-              "resource": {
-				"resourceType": "AllergyIntolerance",
-				"id": "30",
-				"meta": {
-				  "profile": [
-					"https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
-				  ]
-				},
-				"identifier": [
-				  {
-					"system": "https://fhir.nhs.uk/Id/cross-care-setting-identifier",
-					"value": "74835ac0-c511-11ea-beaf-0242ac130002"
-				  }
-				],
-				"clinicalStatus": "active",
-				"verificationStatus": "unconfirmed",
-				"category": [
-				  "environment"
-				],
-				"code": {
-				  "coding": [
-					{
-					  "extension": [
-						{
-						  "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-						  "extension": [
-							{
-							  "url": "descriptionId",
-							  "valueId": "148720012"
-							}
-						  ]
-						}
-					  ],
-					  "system": "http://snomed.info/sct",
-					  "code": "89707004",
-					  "display": "Sesame oil (substance)"
-					}
-				  ]
-				},
-				"patient": {
-				  "reference": "Patient/2"
-				},
-				"onsetDateTime": "1963-07-27T12:00:00+01:00",
-				"assertedDate": "1963-07-27T12:00:00+01:00",
-				"recorder": {
-				  "reference": "Practitioner/1"
-				},
-				"reaction": [
-				  {
-					"manifestation": [
-					  {
-						"coding": [
-						  {
-							"extension": [
-							  {
-								"url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-								"extension": [
-								  {
-									"url": "descriptionId",
-									"valueId": "344917018"
-								  }
-								]
-							  }
-							],
-							"system": "http://snomed.info/sct",
-							"code": "230145002",
-							"display": "Difficulty breathing"
-						  }
-						]
-					  }
-					],
-					"severity": "severe"
-				  }
-				]
-			  }
+            "resource": {
+              "resourceType": "AllergyIntolerance",
+              "id": "30",
+              "meta": {
+                "profile": [
+                  "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
+                ]
+              },
+              "identifier": [
+                {
+                  "system": "https://fhir.nhs.uk/Id/cross-care-setting-identifier",
+                  "value": "74835ac0-c511-11ea-beaf-0242ac130002"
+                }
+              ],
+              "clinicalStatus": "active",
+              "verificationStatus": "unconfirmed",
+              "category": [
+                "environment"
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "extension": [
+                      {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                        "extension": [
+                          {
+                            "url": "descriptionId",
+                            "valueId": "148720012"
+                          }
+                        ]
+                      }
+                    ],
+                    "system": "http://snomed.info/sct",
+                    "code": "89707004",
+                    "display": "Sesame oil (substance)"
+                  }
+                ]
+              },
+              "patient": {
+                "reference": "Patient/2"
+              },
+              "onsetDateTime": "1963-07-27T12:00:00+01:00",
+              "assertedDate": "1963-07-27T12:00:00+01:00",
+              "recorder": {
+                "reference": "Practitioner/1"
+              },
+              "reaction": [
+                {
+                  "manifestation": [
+                    {
+                      "coding": [
+                        {
+                          "extension": [
+                            {
+                              "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                              "extension": [
+                                {
+                                  "url": "descriptionId",
+                                  "valueId": "344917018"
+                                }
+                              ]
+                            }
+                          ],
+                          "system": "http://snomed.info/sct",
+                          "code": "230145002",
+                          "display": "Difficulty breathing"
+                        }
+                      ]
+                    }
+                  ],
+                  "severity": "severe"
+                }
+              ]
             }
           }
         ]
@@ -124,6 +122,7 @@
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-List-1"
           ]
         },
+        "contained": [],
         "status": "current",
         "mode": "snapshot",
         "title": "Ended allergies",
@@ -143,105 +142,107 @@
           }
         },
         "entry": [
-                    {
-            "resourceType": "AllergyIntolerance",
-            "id": "29",
-            "meta": {
-              "profile": [
-                "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
-              ]
-            },
-            "extension": [
-              {
-                "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-AllergyIntoleranceEnd-1",
-                "extension": [
-                  {
-                    "url": "endDate",
-                    "valueDateTime": "2016-11-01T00:00:00+00:00"
-                  },
-                  {
-                    "url": "reasonEnded",
-                    "valueString": "Desensitised to Peanuts"
-                  }
+          {
+            "resource": {
+              "resourceType": "AllergyIntolerance",
+              "id": "29",
+              "meta": {
+                "profile": [
+                  "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1"
                 ]
-              }
-            ],
-            "identifier": [
-              {
-                "system": "https://fhir.nhs.uk/Id/cross-care-setting-identifier",
-                "value": "7483594c-c511-11ea-beaf-0242ac130002"
-              }
-            ],
-            "clinicalStatus": "resolved",
-            "verificationStatus": "unconfirmed",
-            "category": [
-              "environment"
-            ],
-            "code": {
-              "coding": [
+              },
+              "extension": [
                 {
+                  "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-AllergyIntoleranceEnd-1",
                   "extension": [
                     {
-                      "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                      "extension": [
+                      "url": "endDate",
+                      "valueDateTime": "2016-11-01T00:00:00+00:00"
+                    },
+                    {
+                      "url": "reasonEnded",
+                      "valueString": "Desensitised to Peanuts"
+                    }
+                  ]
+                }
+              ],
+              "identifier": [
+                {
+                  "system": "https://fhir.nhs.uk/Id/cross-care-setting-identifier",
+                  "value": "7483594c-c511-11ea-beaf-0242ac130002"
+                }
+              ],
+              "clinicalStatus": "resolved",
+              "verificationStatus": "unconfirmed",
+              "category": [
+                "environment"
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "extension": [
+                      {
+                        "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                        "extension": [
+                          {
+                            "url": "descriptionId",
+                            "valueId": "152306018"
+                          }
+                        ]
+                      }
+                    ],
+                    "system": "http://snomed.info/sct",
+                    "code": "91935009",
+                    "display": "Allergy to peanuts"
+                  },
+                  {
+                    "system": "http://read.info/ctv3",
+                    "code": "Xa1no",
+                    "display": "Peanut allergy",
+                    "userSelected": true
+                  }
+                ]
+              },
+              "patient": {
+                "reference": "Patient/2"
+              },
+              "onsetDateTime": "1962-08-12T00:00:00+01:00",
+              "assertedDate": "2016-11-01T00:00:00+00:00",
+              "recorder": {
+                "reference": "Practitioner/1"
+              },
+              "lastOccurrence": "2016-11-01T00:00:00+00:00",
+              "reaction": [
+                {
+                  "manifestation": [
+                    {
+                      "coding": [
                         {
-                          "url": "descriptionId",
-                          "valueId": "152306018"
+                          "extension": [
+                            {
+                              "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                              "extension": [
+                                {
+                                  "url": "descriptionId",
+                                  "valueId": "372285017"
+                                }
+                              ]
+                            }
+                          ],
+                          "system": "http://snomed.info/sct",
+                          "code": "249519007",
+                          "display": "Diarrhoea and vomiting"
                         }
                       ]
                     }
                   ],
-                  "system": "http://snomed.info/sct",
-                  "code": "91935009",
-                  "display": "Allergy to peanuts"
-                },
-                {
-                  "system": "http://read.info/ctv3",
-                  "code": "Xa1no",
-                  "display": "Peanut allergy",
-                  "userSelected": true
+                  "severity": "mild"
                 }
               ]
-            },
-            "patient": {
-              "reference": "Patient/2"
-            },
-            "onsetDateTime": "1962-08-12T00:00:00+01:00",
-            "assertedDate": "2016-11-01T00:00:00+00:00",
-            "recorder": {
-              "reference": "Practitioner/1"
-            },
-            "lastOccurrence": "2016-11-01T00:00:00+00:00",
-            "reaction": [
-              {
-                "manifestation": [
-                  {
-                    "coding": [
-                      {
-                        "extension": [
-                          {
-                            "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
-                            "extension": [
-                              {
-                                "url": "descriptionId",
-                                "valueId": "372285017"
-                              }
-                            ]
-                          }
-                        ],
-                        "system": "http://snomed.info/sct",
-                        "code": "249519007",
-                        "display": "Diarrhoea and vomiting"
-                      }
-                    ]
-                  }
-                ],
-                "severity": "mild"
-              }
-            ]
+            }
           }
         ]
       }
     }
   ]
- }
+}

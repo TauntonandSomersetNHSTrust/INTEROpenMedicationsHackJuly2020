@@ -5,6 +5,7 @@ const verifyToken = require('./verify-token');
 const login = require('./login');
 const gpc = require('./gpc');
 const normal = require('./normalizer');
+const htmlizer = require('./htmlizer');
 const router = express.Router();
 
 
@@ -115,6 +116,17 @@ const getAlergyInfoByNhsNo = async (req,res) => {
 	}
 };
 
+const getAlergyInfoByNhsNoAsHTML = async (req, res) => {
+	const struct = await gpc.getStructuredMedicalRecord(req.params.nhsno);
+	const json  = await normal.getNormalizedAllergyInfo(struct);
+	const response = await htmlizer.allergyJSONToHTML(json);
+	if (response) {
+		res.send(response);
+	} else {
+		res.status(500).end();
+	}
+};
+
 const getAlergyInfoByNhsNoDemo = async (req,res) => {
 	const response = await gpc.getAlergryInfoByNhsNoDemo(req.params.nhsno);
 	if (response) {
@@ -132,5 +144,6 @@ router.get('/structureddemo/:nhsno', asyncMiddleware(getStructuredRecordByNhsNoD
 router.get('/GPCSummary/:nhsno', asyncMiddleware(getSummaryRecordByNhsNo));
 router.get('/allergydemo/:nhsno', asyncMiddleware(getAlergyInfoByNhsNoDemo));
 router.get('/allergy/:nhsno', asyncMiddleware(getAlergyInfoByNhsNo));
+router.get('/html/allergy/:nhsno', asyncMiddleware(getAlergyInfoByNhsNoAsHTML));
 
 module.exports = router;
