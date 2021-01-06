@@ -25,7 +25,8 @@
     "request-promise": "^4.2.5",
     "uuid": "^8.2.0",
     "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^4.4.2"
+    "winston-daily-rotate-file": "^4.4.2",
+    "axios": ">=0.21.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
