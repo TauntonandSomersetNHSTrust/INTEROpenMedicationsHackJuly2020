@@ -18,7 +18,7 @@
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^1.7.0",
+    "jwks-rsa": "^1.12.1",
     "nocache": "^2.1.0",
     "querystring": "^0.2.0",
     "request": "^2.88.2",
