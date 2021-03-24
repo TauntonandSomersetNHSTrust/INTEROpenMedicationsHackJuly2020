@@ -116,6 +116,31 @@ const getAlergyInfoByNhsNo = async (req,res) => {
 	}
 };
 
+const getSimplFHIRByNhsNo = async (req,res) => {
+	const struct = await gpc.getStructuredMedicalRecord(req.params.nhsno);
+	let response = {};
+
+	response.patient = 'Patient Name Here';
+
+	const allergies  = await normal.getNormalizedAllergyInfo(struct);
+	response.allergies = [];
+	if(allergies && allergies.entry) {
+		response.allergies = allergies.entry;
+	}
+
+	const meds = await normal.getNormalizedMedicineInfo(struct);
+	response.medicine = [];
+	if(meds && meds.entry) {
+		response.medicine = meds.entry;
+	}
+
+	if (response) {
+		res.json(response);
+	} else {
+		res.status(500).end();
+	}
+};
+
 const getMedicineInfoByNhsNo = async (req,res) => {
 	const struct = await gpc.getStructuredMedicalRecord(req.params.nhsno);
 	const response = await normal.getNormalizedMedicineInfo(struct);
@@ -161,6 +186,7 @@ const getAlergyInfoByNhsNoDemo = async (req,res) => {
 router.get('/metadata', asyncMiddleware(metadata));
 router.get('/patient/:nhsno', asyncMiddleware(getPatientByNHSNo));
 router.get('/structured/:nhsno', asyncMiddleware(getStructuredRecordByNhsNo));
+router.get('/simplfhir/:nhsno', asyncMiddleware(getSimplFHIRByNhsNo));
 router.get('/structureddemo/:nhsno', asyncMiddleware(getStructuredRecordByNhsNoDemo));
 router.get('/GPCSummary/:nhsno', asyncMiddleware(getSummaryRecordByNhsNo));
 router.get('/allergydemo/:nhsno', asyncMiddleware(getAlergyInfoByNhsNoDemo));

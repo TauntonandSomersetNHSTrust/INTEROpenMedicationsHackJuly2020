@@ -15,7 +15,7 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 		let reqs = [];
 		let drugs = [];
 
-		console.log('struc:', structuredRecord);
+		//console.log('struc:', structuredRecord);
 
 		for(let r of structuredRecord.entry) {
 			if(r.resource.resourceType === 'List' && r.resource.title.includes('Medications and')) {
@@ -66,7 +66,12 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 
 					details.dosage = stat.dosage[0].text;
 					details.additional = stat.dosage[0].patientInstruction;
-					details.startDate = stat.effectivePeriod.start;
+					if(stat.effectivePeriod.start) {
+						const dt = new Date(stat.effectivePeriod.start);
+						details.startDate = [(dt.getDate()+'').padStart(2, '0'),
+																	((dt.getMonth()+1)+'').padStart(2, '0'),
+																	dt.getFullYear()].join('-')
+					}
 
 					const reqRef = stat.basedOn[0].reference.split('/');
 					const medreq = reqs.find((r) => {
@@ -95,84 +100,78 @@ exports.getNormalizedMedicineInfo = (structuredRecord) => {
 	});
 };
 
+function parseCausesAndReactions(list) {
+	let allergies = [];
+
+	const removeBrackets = (text) => {
+		return text.replace('(', '- ').replace(')', '');
+	};
+
+	for(let fl of list) {
+		console.log('l: ', fl);
+
+		let entry = fl.resource.contained;
+		if(!entry) {
+			entry = [fl.resource];
+		}
+
+		for(const e of entry) {
+			let reactions = [];
+			let causes = [];
+			if(e.code && e.code.coding) {
+				const sno = e.code.coding.filter((s) => {
+					return s.system.includes('snomed');
+				});
+				for(const s of sno) {
+					causes.push({
+						name: removeBrackets(s.display),
+						snomed_code: s.code
+					});
+				}
+			}
+
+			if(e.reaction) {
+				for(const r of e.reaction) {
+					for(const m of r.manifestation) {
+						for(const c of m.coding) {
+							if(c.system && c.system.includes('snomed')) {
+								reactions.push({
+									reaction: removeBrackets(c.display),
+									snomed_code: c.code
+								});
+							}
+						}
+					}
+				}
+			}
+
+			allergies.push({
+				id: e.id,
+				cause: causes,
+				reaction: reactions
+			});
+		}
+	}
+	return allergies;
+}
+
 exports.getNormalizedAllergyInfo = (structuredRecord) => {
 	return new Promise((resolve, reject) => {
-		let body = {
-			resourceType: structuredRecord.resourceType,
-			meta: structuredRecord.meta,
-			type: structuredRecord.type,
-			entry: []
-		};
+ 		console.log('current allergies:', structuredRecord);
 
-		const currentAllergies = structuredRecord.entry.filter((e) => {
-			return e.resource.resourceType === "AllergyIntolerance";
+		const currentLists = structuredRecord.entry.filter((c) => {
+			return c.resource.resourceType == 'AllergyIntolerance';
 		});
 
-		//console.log('current allergies:', currentAllergies);
-
-		const lists = structuredRecord.entry.filter((e) => {
-			return e.resource.resourceType === "List";
+		const formerLists = structuredRecord.entry.filter((e) => {
+			return  e.resource.resourceType === "List" && e.resource.title === "Ended allergies";
 		});
 
-		const formerLists = lists.filter((l) => {
-			return l.resource.title === "Ended allergies";
-		});
-
-		//console.log('Former lists:', formerLists);
-
-		for(let fl of formerLists) {
-			let entry = fl.resource.entry;
-			let newEntry = [];
-			for(let e of entry) {
-				const allergyRef = e.item.reference;
-				if(allergyRef) {
-					const r = allergyRef.split('#');
-					//console.log(r);
-					if(r && r.length == 2) {
-						const aRecord = fl.resource.contained.find((a) => {
-							//console.log('Looking for: ', a.id, a.resourceType)
-							return a.resourceType === 'AllergyIntolerance' && a.id == r[1];
-						});
-						//console.log(aRecord);
-						if(aRecord) {
-							newEntry.push({resource: aRecord});
-						}
-					}
-				}
-			}
-			fl.resource.contained = [];
-			fl.resource.entry = newEntry;
-		}
-
-		const currentLists = lists.filter((l) => {
-			return l.resource.title.includes('Allergies');
-		});
-
-		//console.log('Current Lists:', currentLists);
-
-		for(let cl of currentLists) {
-			let entry = cl.resource.entry;
-			let newEntry = [];
-			for(let e of entry) {
-				const allergyRef = e.item.reference;
-				if(allergyRef) {
-					const r = allergyRef.split('/');
-					if(r && r.length == 2) {
-						const aRecord = currentAllergies.find((a) => {
-							return a.resource.id == r[1];
-						});
-						if(aRecord) {
-							newEntry.push(aRecord);
-						}
-					}
-				}
-			}
-			cl.resource.entry = newEntry;
-		}
-
-		body.entry = [...currentLists, ...formerLists];
-
-		return resolve(body);
+		return resolve({
+			entry: {
+				current: parseCausesAndReactions(currentLists),
+				former: parseCausesAndReactions(formerLists)
+		}});
 	});
 }
 

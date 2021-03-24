@@ -163,7 +163,7 @@ const login = require('./handlers/login');
 const patients = require('./handlers/patients')
 
 app.use('/auth', login);
-app.use('/gpc', patients);
+app.use('/data', patients);
 //app.use('/', fhir);
 
 server.listen(process.env.listenOn, 'localhost');
